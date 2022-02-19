@@ -29,12 +29,12 @@ async def up(event):
 async def start(event):
     ok = await event.client(GetFullUserRequest(event.sender_id))
     await event.reply(
-        f"اهلا `{ok.user.first_name}`\nهذا بوت ضغط الفيديو.\nيقوم بتقليص حجم الفيديو مع الحفاظ على دقته.\nتستطيع انشاء لقطات شاشة\عينة للفيديو.",
+        f"Welcome `{ok.user.first_name}`\nThis is a video compression bot.\nIt reduces the size of the video while maintaining its accuracy.\nYou can create screenshots/sample of the video.",
         buttons=[
-            [Button.inline("مساعدة", data="ihelp")],
+            [Button.inline("help", data="ihelp")],
             [
-                Button.url("السورس كود", url="github.com/wahebtalal/VideoCompressBot"),
-                Button.url("المطور", url="t.me/Wahiebtalal"),
+                Button.url("source code", url="github.com/wahebtalal/VideoCompressBot"),
+                Button.url("Developer", url="t.me/Wahiebtalal"),
             ],
         ],
     )
@@ -42,26 +42,26 @@ async def start(event):
 
 async def help(event):
     await event.reply(
-        "**🐠 بوت ضغط الفيديو**\n\n+يقوم هذا البوت بضغط مقاطع الفيديو مع تغيير ضئيل في الجودة.\n+انشاء عينة فيديو مضغوط\n+سهل الاستخدام\n-نظرًا لإعدادات الجودة ، يستغرق البوت وقتًا في الضغط.\nلذا كن صبورًا وأرسل مقاطع الفيديو واحدًا تلو الآخر بعد الانتهاء.\nلا تقم بارسال رسائل عشوائية لتجنب الحظر.\n\nفقط قم بإعادة توجيه الفيديو"
+        "**🐠 Video Compress Bot**\n\n+This bot compresses videos with little change in quality.\n+Create a compressed video sample\n+Easy to use\n-Due to the quality settings, the bot takes time to compress.\nSo Be patient and send the videos one by one after you're done.\nDon't spam to avoid getting banned.\n\nJust forward the video"
                       )
 
 
 async def ihelp(event):
     await event.edit(
-        "**🐠 بوت ضغط الفيديو**\n\n+يقوم هذا البوت بضغط مقاطع الفيديو مع تغيير ضئيل في الجودة.\n+انشاء عينة فيديو مضغوط\n+سهل الاستخدام\n-نظرًا لإعدادات الجودة ، يستغرق البوت وقتًا في الضغط.\nلذا كن صبورًا وأرسل مقاطع الفيديو واحدًا تلو الآخر بعد الانتهاء.\nلا تقم بارسال رسائل عشوائية لتجنب الحظر.\n\nفقط قم بإعادة توجيه الفيديو",
-        buttons=[Button.inline("رجوع", data="beck")],
+        "**🐠 Video Compress Bot**\n\n+This bot compresses videos with little change in quality.\n+Create a compressed video sample\n+Easy to use\n-Due to the quality settings, the bot takes time to compress.\nSo Be patient and send the videos one by one after you're done.\nDon't spam to avoid getting banned.\n\nJust forward the video",
+        buttons=[Button.inline("Revert", data="beck")],
     )
 
 
 async def beck(event):
     ok = await event.client(GetFullUserRequest(event.sender_id))
     await event.edit(
-        f"اهلا `{ok.user.first_name}`\nهذا بوت ضغط الفيديو.\nيقوم بتقليص حجم الفيديو مع الحفاظ على دقته.\nتستطيع انشاء لقطات شاشة\عينة للفيديو.",
+        f"Welcome `{ok.user.first_name}`Hi,\nThis is a video compression bot.\nIt reduces video size while maintaining its accuracy.\nYou can create video/sample screenshots.",
              buttons=[
-            [Button.inline("مساعدة", data="ihelp")],
+            [Button.inline("help", data="ihelp")],
             [
-                Button.url("السورس كود", url="github.com/wahebtalal/VideoCompressBot"),
-                Button.url("المطور", url="t.me/Wahiebtalal"),
+                Button.url("source code", url="github.com/wahebtalal/VideoCompressBot"),
+                Button.url("Developer", url="t.me/Wahiebtalal"),
             ],
         ],
     )
@@ -70,13 +70,13 @@ async def beck(event):
 async def sencc(e):
     key = e.pattern_match.group(1).decode("UTF-8")
     await e.edit(
-        "اختر الطريقة",
+        "Choose method",
         buttons=[
             [
-                Button.inline("الافتراضي", data=f"encc{key}"),
-                Button.inline("تخصيص", data=f"ccom{key}"),
+                Button.inline("default", data=f"encc{key}"),
+                Button.inline("Customize", data=f"ccom{key}"),
             ],
-            [Button.inline("رجوع", data=f"back{key}")],
+            [Button.inline("Revert", data=f"back{key}")],
         ],
     )
 
@@ -84,19 +84,19 @@ async def sencc(e):
 async def back(e):
     key = e.pattern_match.group(1).decode("UTF-8")
     await e.edit(
-        "🐠  **ماذا تريد** 🐠",
+        "🐠 **What do you want** 🐠",
         buttons=[
             [
-                Button.inline("إنشاء عينة ", data=f"gsmpl{key}"),
-                Button.inline("لقطات الشاشة ", data=f"sshot{key}"),
+                Button.inline("Create sample ", data=f"gsmpl{key}"),
+                Button.inline("Screenshots ", data=f"sshot{key}"),
             ],
-            [Button.inline("ضغط", data=f"sencc{key}")],
+            [Button.inline("compression", data=f"sencc{key}")],
         ],
     )
 
 
 async def ccom(e):
-    await e.edit("أرسل اسم للملف ")
+    await e.edit("Send file name ")
     wah = e.pattern_match.group(1).decode("UTF-8")
     wh = decode(wah)
     out, dl, thum, dtime = wh.split(";")
@@ -111,7 +111,7 @@ async def ccom(e):
             g = repl.text + ".mkv"
         outt = f"encode/{chat}/{g}"
         x = await repl.reply(
-            f"اسم الملف : {g}\n\nإرسال صورة مصغرة  Thumbnail ."
+            f"File name : {g}\n\nSend a thumbnail Thumbnail ."
         )
         replyy = cv.wait_event(events.NewMessage(from_users=chat))
         rep = await replyy
