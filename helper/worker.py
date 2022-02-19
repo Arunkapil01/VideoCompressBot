@@ -20,7 +20,7 @@ from helper import ffmpegfunc
 from .FastTelethon import download_file, upload_file
 
 async def screenshot(e):
-    await e.edit("`جاري إنشاء لقطات الشاشة ... `")
+    await e.edit("`Creating screenshots... `")
     COUNT.append(e.chat_id)
     wah = e.pattern_match.group(1).decode("UTF-8")
     key = decode(wah)
@@ -38,13 +38,13 @@ async def screenshot(e):
         await e.client.send_file(e.chat_id, pic)
         await e.client.send_message(
             e.chat_id,
-            "تحقق من لقطات الشاشة أعلاه 😁 ",
+            "Check out the screenshots above 😁 ",
             buttons=[
                 [
-                    Button.inline("انشاء عينة", data=f"gsmpl{wah}"),
-                    Button.inline("ضغط", data=f"sencc{wah}"),
+                    Button.inline("Create a sample", data=f"gsmpl{wah}"),
+                    Button.inline("compression", data=f"sencc{wah}"),
                 ],
-                [Button.inline("تخطي", data=f"skip{wah}")],
+                [Button.inline("Skip", data=f"skip{wah}")],
             ],
         )
         COUNT.remove(e.chat_id)
@@ -78,10 +78,10 @@ async def stats(e):
         out, dl, thum, dtime = wh.split(";")
         ot = hbs(int(Path(out).stat().st_size))
         ov = hbs(int(Path(dl).stat().st_size))
-        ans = f"تم التنزيل:\n{ov}\n\nجاري الضغط:\n{ot}"
+        ans = f"downloaded:\n{ov}\n\npressing:\n{ot}"
         await e.answer(ans, cache_time=0, alert=True)
     except BaseException:
-        await e.answer("هناك مشكلة 🤔\nاعد ارسال الفيديو", cache_time=0, alert=True)
+        await e.answer("There is a problem\nResend the video", cache_time=0, alert=True)
 
 
 async def encc(e):
@@ -92,10 +92,10 @@ async def encc(e):
         wh = decode(wah)
         out, dl, thum, dtime = wh.split(";")
         nn = await e.edit(
-            "`جاري الضغط..`",
+            "`pressure is in progress...`",
             buttons=[
-                [Button.inline("الحالة", data=f"stats{wah}")],
-                [Button.inline("الغاء العملية", data=f"skip{wah}")],
+                [Button.inline("the condition", data=f"stats{wah}")],
+                [Button.inline("cancel operation", data=f"skip{wah}")],
             ],
         )
         cmd = f'ffmpeg -i "{dl}" -preset ultrafast -c:v libx265 -crf 27 -map 0:v -c:a aac -map 0:a -c:s copy -map 0:s? "{out}" -y'
@@ -106,7 +106,7 @@ async def encc(e):
         er = stderr.decode()
         try:
             if er:
-                await e.edit(str(er) + "\n\n**خطا** تواصل مع  @Wahiebtalal")
+                await e.edit(str(er) + "\n\n**خطا** communicate with  @Wahiebtalal")
                 COUNT.remove(e.chat_id)
                 os.remove(dl)
                 return os.remove(out)
@@ -115,14 +115,14 @@ async def encc(e):
         ees = dt.now()
         ttt = time.time()
         await nn.delete()
-        nnn = await e.client.send_message(e.chat_id, "`جاري الرفع...`")
+        nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
         with open(out, "rb") as f:
             ok = await upload_file(
                      client=e.client,
                      file=f,
                      name=out,
                      progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                         progress(d, t, nnn, ttt, "جاري الرفع..")
+                         progress(d, t, nnn, ttt, "Uploading in progress...")
                          ),
                      )
 
@@ -150,7 +150,7 @@ async def encc(e):
         a1 = await info(dl, e)
         a2 = await info(out, e)
         dk = await ds.reply(
-            f"الحجم السابق : {hbs(org)}\nالحجم الحالي : {hbs(com)}\nنسبة الضغط : {per}\n\nMediainfo: [Before]({a1})//[After]({a2})\n\nDownloaded in {x}\nCompressed in {xx}\nUploaded in {xxx}",
+            f"اfor the previous size : {hbs(org)}\ncurrent size : {hbs(com)}\npressure ratio: {per}\n\nMediainfo: [Before]({a1})//[After]({a2})\n\nDownloaded in {x}\nCompressed in {xx}\nUploaded in {xxx}",
             link_preview=False,
         )
         await ds.forward_to(LOG)
@@ -170,10 +170,10 @@ async def sample(e):
     out, dl, thum, dtime = wh.split(";")
     ss, dd = await duration_s(dl)
     xxx = await e.edit(
-        "`جاري إنشاء العينة ... `",
+        "`Sample being created... `",
         buttons=[
-            [Button.inline("الحالة", data=f"stats{wah}")],
-            [Button.inline("الغاء العملية", data=f"skip{wah}")],
+            [Button.inline("اfor case", data=f"stats{wah}")],
+            [Button.inline("cancel operation", data=f"skip{wah}")],
         ],
     )
     ncmd = f'ffmpeg -i "{dl}" -preset ultrafast -ss {ss} -to {dd} -c:v libx265 -crf 27 -map 0:v -c:a aac -map 0:a -c:s copy -map 0:s? "{out}" -y'
@@ -184,7 +184,7 @@ async def sample(e):
     er = stderr.decode()
     try:
         if er:
-            await e.edit(str(er) + "\n\n**خطا** تواصل مع  @Wahiebtalal")
+            await e.edit(str(er) + "\n\n**Error ** Contact @Wahiebtalal")
             COUNT.remove(e.chat_id)
             os.remove(dl)
             os.remove(out)
@@ -200,14 +200,14 @@ async def sample(e):
             force_document=True,
             thumb=thum,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, xxx, ttt, "جاري الرفع..", file=f"{out}")
+                progress(d, t, xxx, ttt, "Uploading in progress...", file=f"{out}")
             ),
             buttons=[
                 [
-                    Button.inline("لقطات شاشة", data=f"sshot{wah}"),
-                    Button.inline("ضغط", data=f"sencc{wah}"),
+                    Button.inline("Screenshots", data=f"sshot{wah}"),
+                    Button.inline("compression", data=f"sencc{wah}"),
                 ],
-                [Button.inline("تخطي", data=f"skip{wah}")],
+                [Button.inline("Skip", data=f"skip{wah}")],
             ],
         )
         COUNT.remove(e.chat_id)
@@ -235,15 +235,15 @@ async def encod(event):
             oc = event.fwd_from.from_id.user_id
             occ = (await event.client.get_me()).id
             if oc == occ:
-                return await event.reply("`ملف الفيديو هذا مضغوط بالفعل 😑😑 .`")
+                return await event.reply("`This video file is already compressed 😑😑 .`")
         except BaseException:
             pass
-        xxx = await event.reply("`جاري التنزيل...`")
+        xxx = await event.reply("`Downloading...`")
         """ For Force Subscribe Channel"""
         Block = str(block).split()
         if str(user.id) in Block:
             await xxx.delete()
-            return await event.reply("تم حظرك يرجى التواصل مع المسؤول \n @wahiebtalal")
+            return await event.reply("You have been blocked, please contact the administrator\n @wahiebtalal")
            # return await xxx.delete()
         if(GroupName !=""):
          pp = []
@@ -259,12 +259,12 @@ async def encod(event):
         if len(COUNT) > 4 and user.id != OWNER:
             llink = (await event.client(cl(LOG))).link
             return await xxx.edit(
-                "ضغط على البوت , هناك 5 عمليات قيد التنفيذ",
-                buttons=[Button.url("حالة العمليات", url=llink)],
+                "Click on the bot, there are 5 operations in progress",
+                buttons=[Button.url("Operation status", url=llink)],
             )
         if user.id in COUNT and user.id != OWNER:
             return await xxx.edit(
-                "يتم  معالجة طلبك الأول\nيرجى الانتظار حتى الانتهاء"
+                "Your first request is being processed\nPlease wait for it to finish"
             )
         COUNT.append(user.id)
         s = dt.now()
@@ -273,7 +273,7 @@ async def encod(event):
         gg = await event.client.get_entity(user.id)
         name = f"[{get_display_name(gg)}](tg://user?id={user.id})"
         await event.client.send_message(
-            LOG, f"{len(COUNT)} تم بدء التنزيل للمستخدم  - {name}"
+            LOG, f"{len(COUNT)} The download has been started for the user  - {name}"
         )
         dir = f"downloads/{user.id}/"
         if not os.path.isdir(dir):
@@ -299,7 +299,7 @@ async def encod(event):
                                 t,
                                 xxx,
                                 ttt,
-                                "جاري التنزيل",
+                                "Downloading",
                             )
                         ),
                     )
@@ -308,7 +308,7 @@ async def encod(event):
                     event.media,
                     dir,
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, xxx, ttt, "جاري التنزيل")
+                        progress(d, t, xxx, ttt, "Downloading")
                     ),
                 )
         except Exception as er:
@@ -332,14 +332,14 @@ async def encod(event):
         COUNT.remove(user.id)
         await event.client.send_message(
             event.chat_id,
-            f"🐠اكتمل التنزيل !! 🐠",
+            f"🐠Download completed!! 🐠",
             buttons=[
                 [
-                    Button.inline("انشاء عينة", data=f"gsmpl{key}"),
-                    Button.inline("لقطات شاشة", data=f"sshot{key}"),
+                    Button.inline("Create a sample", data=f"gsmpl{key}"),
+                    Button.inline("Screenshots", data=f"sshot{key}"),
                 ],
                 [Button.url("MEDIAINFO", url=inf)],
-                [Button.inline("ضغط", data=f"sencc{key}")],
+                [Button.inline("pressure", data=f"sencc{key}")],
             ],
         )
     except BaseException as er:
@@ -354,10 +354,10 @@ async def customenc(e, key):
     wh = decode(wah)
     out, dl, thum, dtime = wh.split(";")
     nn = await e.edit(
-        "`جاري الضغط..`",
+        "`pressure is in progress...`",
         buttons=[
-            [Button.inline("الحالة", data=f"stats{wah}")],
-            [Button.inline("الغاء العملية", data=f"skip{wah}")],
+            [Button.inline("status", data=f"stats{wah}")],
+            [Button.inline("Skip", data=f"skip{wah}")],
         ],
     )
     cmd = f'ffmpeg -i "{dl}" -preset ultrafast -c:v libx265 -crf 27 -map 0:v -c:a aac -map 0:a -c:s copy -map 0:s? "{out}" -y'
@@ -368,7 +368,7 @@ async def customenc(e, key):
     er = stderr.decode()
     try:
         if er:
-            await e.edit(str(er) + "\n\n**خطا** تواصل مع  @Wahiebtalal")
+            await e.edit(str(er) + "\n\n**Error ** Contact  @Wahiebtalal")
             COUNT.remove(e.chat_id)
             os.remove(dl)
             return os.remove(out)
@@ -378,7 +378,7 @@ async def customenc(e, key):
     ees = dt.now()
     ttt = time.time()
     await nn.delete()
-    nnn = await e.client.send_message(e.chat_id, "`جاري الرفع...`")
+    nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
     try:
         with open(out, "rb") as f:
             ok = await upload_file(
@@ -386,7 +386,7 @@ async def customenc(e, key):
                      file=f,
                      name=out,
                      progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                         progress(d, t, nnn, ttt, "جاري الرفع..")
+                         progress(d, t, nnn, ttt, "Uploading in progress...")
                          ),
                      )
 
@@ -412,7 +412,7 @@ async def customenc(e, key):
     a1 = await info(dl, e)
     a2 = await info(out, e)
     dk = await ds.reply(
-        f"الحجم السابق : {hbs(org)}\nالحجم الحالي : {hbs(com)}\nنسبة الضغط : {per}\n\nMediainfo: [Before]({a1})//[After]({a2})\n\nDownloaded in {x}\nCompressed in {xx}\nUploaded in {xxx}",
+        f"Previous size : {hbs(org)}\ncurrent size: {hbs(com)}\npressure ratio : {per}\n\nMediainfo: [Before]({a1})//[After]({a2})\n\nDownloaded in {x}\nCompressed in {xx}\nUploaded in {xxx}",
         link_preview=False,
     )
     await ds.forward_to(LOG)
