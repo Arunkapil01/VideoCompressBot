@@ -18,7 +18,7 @@ from .stuff import *
 async def eval(event):
     if event.sender_id != OWNER:
         return
-    await event.reply("جاري المعالجة ...")
+    await event.reply("Processing...")
     cmd = event.text.split(" ", maxsplit=1)[1]
     old_stderr = sys.stderr
     old_stdout = sys.stdout
@@ -41,7 +41,7 @@ async def eval(event):
     elif stdout:
         evaluation = stdout
     else:
-        evaluation = "تم بنجاح"
+        evaluation = "done successfully"
     final_output = "**EVAL**: `{}` \n\n **OUTPUT**: \n`{}` \n".format(cmd, evaluation)
     if len(final_output) > 4095:
         with io.BytesIO(str.encode(final_output)) as out_file:
