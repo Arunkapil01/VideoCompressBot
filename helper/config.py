@@ -22,12 +22,12 @@ try:
     LOG = config("LOG_CHANNEL", cast=int)
     GroupName=config("GroupName",default="")
     GroupUrl=config("GroupUrl")
-    GroupButton = config("GroupButton",default="الانظمام")
-    GroupMessage=config("GroupMessage",default="قناة البوت")
+    GroupButton = config("GroupButton",default="join")
+    GroupMessage=config("GroupMessage",default="Organize the bot channel")
 
     BlockUrl = config("BlockUrl",default="t.me/wahiebtalal")
-    BlockButton = config("BlockButton", default="المسؤول")
-    BlockMessage = config("BlockMessage", default="تم حضرك من استخدام البوت")
+    BlockButton = config("BlockButton", default="Administrator")
+    BlockMessage = config("BlockMessage", default="You have been banned from using the bot")
     block=config("Block",default="1 2")
 
 except Exception as e:
