@@ -1,15 +1,15 @@
-## 𝕍𝕚𝕕𝕖𝕠 ℂ𝕆𝕄ℙℝ𝔼𝕊𝕊𝕆ℝ 𝔹𝕆𝕋  
+## 𝕍 y 𝕠 ℂ𝕆𝕄ℙℝ𝔼𝕊𝕊𝕆ℝ 𝔹𝕆𝕋
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/wahebtalal/VideoCompressBot)
 ---
-## ضغط الفيديو
+## Compress video
 
-### بوت تيليجرام ضغط الفيديو  
-- يقوم بضغط مقاطع الفيديو مع تغيير ضئيل في الجودة.
-- يمكنك إنشاء مقاطع فيديو مضغوطة ولقطات شاشة أيضًا.
-- يمكنك تعيين اسم الفيديو المخصص والصورة المصغرة.
-- يتم حفظ سجل الحركة الى قناتك الخاصة.
-- في الوقت الحالي ، قمت بتعيينه على 5 عمليات كحد أقصى في المرة الواحدة.
+### Telegram video compression bot
+Compresses videos with little change in quality.
+- You can create compressed videos and screenshots as well.
+- You can set custom video name and thumbnail.
+- The movement log is saved to your own channel.
+- Currently, I set it to max 5 processes at a time.
 
 
 
@@ -18,4 +18,4 @@
 
 wahebtalal@gmail.com
 
-Twitter : @waheby2000
+Twitter: @waheby2000
